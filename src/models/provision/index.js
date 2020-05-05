@@ -1,6 +1,3 @@
-const DB = require('../db')
-const db = new DB('toolbox')
-
 const userTemplate = require('./templates/user')
 const userProfileTemplate = require('./templates/user-profile')
 const upsertUserProfile = require('./user-profile').upsert
@@ -107,34 +104,25 @@ async function go (dCloudUserId) {
 }
 
 // mark user as partially provisioned
-function setProvisionFlag (username, id) {
-  // build provision data query
-  const q = { username, demo: 'webex', version: 'v3prod' }
-  // build provision data object
-  const data = {
-    username,
-    id,
-    demo: 'webex',
-    version: 'v3prod',
-    isDone: false
-  }
-  // add or update provision data to mongo db
-  return db.upsert('provision', q, data)
-}
-
-function setQueueId ({userId, queueId}) {
-  return db.upsert('cwcc.queue', {userId}, {
-    userId,
-    queueId,
-    isNew: '1'
-  })
-}
+// function setProvisionFlag (username, id) {
+//   // build provision data query
+//   const q = { username, demo: 'webex', version: 'v3prod' }
+//   // build provision data object
+//   const data = {
+//     username,
+//     id,
+//     demo: 'webex',
+//     version: 'v3prod',
+//     isDone: false
+//   }
+//   // add or update provision data to mongo db
+//   return db.upsert('provision', q, data)
+// }
 
 // run async
 // go('0325').catch(e => console.log(e.message))
 
 module.exports = {
   go,
-  setProvisionFlag,
-  setQueueId
+  setProvisionFlag
 }

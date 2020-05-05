@@ -88,8 +88,6 @@ Routes
 app.use('/api/v1/webex-v3prod/session', require('./routes/session'))
 // post to start user demo provisioning
 app.use('/api/v1/webex-v3prod/provision', require('./routes/provision'))
-// get/set cumulus demo config (including vertical selection)
-app.use('/api/v1/webex-v3prod/cumulus', require('./routes/cumulus'))
 
 /*
 Go

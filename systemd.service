@@ -1,0 +1,13 @@
+[Unit]
+Description=dCloud Cisco Webex Contact Center v3 (Abilene) toolbox REST API. Provides service to webex-v3prod-toolbox-ui. Intended to run on the toolbox1 and toolbox2 servers in dCloud shared services.
+After=network.target
+
+[Service]
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/opt/dcloud/webex-v3prod-toolbox-api
+ExecStart=/usr/bin/node src/index
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

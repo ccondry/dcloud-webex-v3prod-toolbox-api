@@ -29,7 +29,7 @@ router.post('/', async function (req, res, next) {
 
     console.log('marking user', username, userId, 'as provisioned but not done in cloud db')
     // mark user provisioned but not done in our cloud db
-    await model.setProvisionFlag(username, userId)
+    await model.set({username, userId, isDone: false})
 
     console.log('sending CUCM provision request to demo session...')
     // const response = await cucmModel.post(req.headers.authorization)

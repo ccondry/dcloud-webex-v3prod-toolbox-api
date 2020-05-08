@@ -7,6 +7,41 @@ const upsertVirtualTeam = require('./virtual-team').upsert
 const upsertTeam = require('./team').upsert
 const upsertUser = require('./user').upsert
 
+const DB = require('./db')
+const db = new DB('toolbox')
+
+async function set (data) {
+  try {
+    // build provision data query
+    const q = { username: data.username, demo: 'webex', version: 'v3prod' }
+    // build provision data object on top of input data
+    const dbData = { demo: 'webex', version: 'v3prod', ...data }
+    const existing = await db.findOne('provision', q)
+    if (existing) {
+      // update
+      await db.updateOne('provision', q, {$set: dbData})
+    } else {
+      // create new
+      await db.insert('provision', dbData)
+    }
+  } catch (e) {
+    throw e
+  }
+}
+
+async function find (username) {
+  try {
+    // get user provision data from mongo db
+    const q = { username, demo: 'webex', version: 'v3prod' }
+    // don't return record id
+    const projection = { _id: 0 }
+    return db.findOne('provision', q, {projection})
+  } catch (e) {
+    throw e
+  }
+}
+
+
 // main function block
 async function go (dCloudUserId) {
   const teamName = 'T_dCloud_' + dCloudUserId
@@ -103,35 +138,8 @@ async function go (dCloudUserId) {
   }
 }
 
-// mark user as partially provisioned
-async function setProvisionFlag (username, id) {
-  // build provision data query
-  const q = { username, demo: 'webex', version: 'v3prod' }
-  // build provision data object
-  const data = {
-    username,
-    id,
-    demo: 'webex',
-    version: 'v3prod',
-    isDone: false
-  }
-
-  // find existing provision info
-  const existing = await db.findOne('provision', q)
-  if (existing) {
-    // update it
-    return db.updateOne('provision', q, {$set: data})
-  } else {
-    // create it
-    // add or update provision data to mongo db
-    return db.insert('provision', data)
-  }
-}
-
-// run async
-// go('0325').catch(e => console.log(e.message))
-
 module.exports = {
   go,
-  setProvisionFlag
+  set,
+  find
 }

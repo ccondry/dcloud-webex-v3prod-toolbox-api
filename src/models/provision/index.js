@@ -7,7 +7,7 @@ const upsertVirtualTeam = require('./virtual-team').upsert
 const upsertTeam = require('./team').upsert
 const upsertUser = require('./user').upsert
 
-const DB = require('./db')
+const DB = require('../db')
 const db = new DB('toolbox')
 
 async function set (data) {

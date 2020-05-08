@@ -88,6 +88,8 @@ Routes
 app.use('/api/v1/webex-v3prod/session', require('./routes/session'))
 // post to start user demo provisioning
 app.use('/api/v1/webex-v3prod/provision', require('./routes/provision'))
+// get this software version
+app.use('/api/v1/webex-v3prod/version', require('./routes/version'))
 
 /*
 Go

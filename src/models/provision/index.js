@@ -104,7 +104,7 @@ async function go (dCloudUserId) {
 }
 
 // mark user as partially provisioned
-function setProvisionFlag (username, id) {
+async function setProvisionFlag (username, id) {
   // build provision data query
   const q = { username, demo: 'webex', version: 'v3prod' }
   // build provision data object
@@ -115,8 +115,17 @@ function setProvisionFlag (username, id) {
     version: 'v3prod',
     isDone: false
   }
-  // add or update provision data to mongo db
-  // return db.upsert('provision', q, data)
+
+  // find existing provision info
+  const existing = await db.findOne('provision', q)
+  if (existing) {
+    // update it
+    return db.updateOne('provision', q, {$set: data})
+  } else {
+    // create it
+    // add or update provision data to mongo db
+    return db.insert('provision', data)
+  }
 }
 
 // run async

@@ -3,7 +3,8 @@ const request = require('request-promise-native')
 let url
 if (process.env.NODE_ENV === 'production') {
   // production
-  url = 'https://rp-cwcc-rtp-1.cxdemo.net/api/v1/cwcc/provision'
+  const hostname = process.env.SESSION_HOST || 'rp-cwcc-abilene-rtp-1.cxdemo.net'
+  url = 'https://' + hostname + '/api/v1/cwcc/provision'
 } else {
   // development
   url = 'http://localhost:3050/api/v1/cwcc/provision'

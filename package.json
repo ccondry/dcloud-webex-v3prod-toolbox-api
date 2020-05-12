@@ -1,6 +1,6 @@
 {
   "name": "webex-v3prod-toolbox-api",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "dCloud Cisco Webex Contact Center v3 (Abilene) toolbox REST API. Provides service to webex-v3prod-toolbox-ui. Intended to run on the toolbox1 and toolbox2 servers in dCloud shared services.",
   "main": "src/index.js",
   "scripts": {

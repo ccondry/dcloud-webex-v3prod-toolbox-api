@@ -11,13 +11,13 @@ router.post('/', async function (req, res, next) {
   const clientIp = req.clientIp
   const method = req.method
   const path = req.originalUrl
-  const operation = 'provision user for CWCC demo'
+  const operation = 'provision user for Webex v3 demo'
 
   try {
     console.log('user', username, userId, 'at IP', clientIp, operation, method, path, 'requested')
-    // do provisioning in CWCC cloud
-    // const results = await model.go(userId)
-    console.log('user', username, userId, 'CWCC provisioning done')
+    // do provisioning in CJP
+    const results = await model.go(userId)
+    console.log('user', username, userId, 'CWCC provisioning done for Webex v3 demo:', results)
     // results: {
     //   team,
     //   supervisor,
@@ -27,13 +27,14 @@ router.post('/', async function (req, res, next) {
     //   queueId
     // }
 
-    console.log('marking user', username, userId, 'as provisioned but not done in cloud db')
+    console.log('marking user', username, userId, 'as provisioned but not done for Webex v3')
     // mark user provisioned but not done in our cloud db
     await model.set({username, userId, isDone: false})
 
-    console.log('sending CUCM provision request to demo session...')
-    // const response = await cucmModel.post(req.headers.authorization)
-    // console.log('CUCM provision request sent successfully', response)
+    console.log('sending CUCM provision request to Webex v3 demo session...')
+    // forward the JWT to the CUCM inside the demo session
+    const response = await cucmModel.post(req.headers.authorization)
+    console.log('CUCM provision request to Webex v3 demo session sent successfully', response)
 
     // return 200 OK
     return res.status(200).send()

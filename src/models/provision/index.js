@@ -16,12 +16,13 @@ async function set (data) {
     const q = { username: data.username, demo: 'webex', version: 'v3prod' }
     // build provision data object on top of input data
     const dbData = { demo: 'webex', version: 'v3prod', ...data }
+    // check if there is an existing provision record
     const existing = await db.findOne('provision', q)
     if (existing) {
-      // update
+      // update record
       await db.updateOne('provision', q, {$set: dbData})
     } else {
-      // create new
+      // create new record
       await db.insertOne('provision', dbData)
     }
   } catch (e) {
@@ -51,8 +52,8 @@ async function go (dCloudUserId) {
   // const virtualTeamChatName = 'EP_Chat_' + dCloudUserId
   const routingStrategyName = 'RS_dCloud_' + dCloudUserId
   const userProfileName = 'Supervisor ' + dCloudUserId
-  // const supervisorProfileId = 'AWwbV8tvhW2lRXH-xsW8'
-  const agentProfileId = 'AWX8rlaq_1uTFjV88ROQ'
+  const supervisorProfileId = 'AWwbV8tvhW2lRXH-xsW8'
+  // const agentProfileId = 'AWX8rlaq_1uTFjV88ROQ'
 
   // voice queue
   const virtualTeam = await upsertVirtualTeam({name: virtualTeamName})

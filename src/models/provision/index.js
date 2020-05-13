@@ -52,7 +52,7 @@ async function go (dCloudUserId) {
   // const virtualTeamChatName = 'EP_Chat_' + dCloudUserId
   const routingStrategyName = 'RS_dCloud_' + dCloudUserId
   const userProfileName = 'Supervisor ' + dCloudUserId
-  const supervisorProfileId = 'AWwbV8tvhW2lRXH-xsW8'
+  // const supervisorProfileId = 'AWwbV8tvhW2lRXH-xsW8'
   // const agentProfileId = 'AWX8rlaq_1uTFjV88ROQ'
 
   // voice queue

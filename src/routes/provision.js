@@ -29,7 +29,7 @@ router.post('/', async function (req, res, next) {
 
     console.log('marking user', username, userId, 'as provisioned but not done for Webex v3')
     // mark user provisioned but not done in our cloud db
-    await model.set({username, userId, isDone: false})
+    await model.set({username, id: userId, isDone: false})
 
     console.log('sending CUCM provision request to Webex v3 demo session...')
     // forward the JWT to the CUCM inside the demo session

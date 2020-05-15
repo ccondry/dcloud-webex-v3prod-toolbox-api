@@ -33,8 +33,8 @@ router.post('/', async function (req, res, next) {
 
     console.log('sending CUCM provision request to Webex v3 demo session...')
     // forward the JWT to the CUCM inside the demo session
-    const response = await cucmModel.post(req.headers.authorization)
-    console.log('CUCM provision request to Webex v3 demo session sent successfully', response)
+    await cucmModel.post(req.headers.authorization)
+    console.log('CUCM provision request to Webex v3 demo session sent successfully')
 
     // return 200 OK
     return res.status(200).send()

@@ -34,10 +34,9 @@ async function setChatDefaults (userId) {
     // define things to set in user data
     const s = {}
     // set each db property for the user that was sent in their request
-    for (const p of Object.keys(defaults)) {
-      s[`demo.${demo}.${p}`] = defaults[p]
+    for (const key of Object.keys(defaults)) {
+      s[`demo.${demo}.${key}`] = defaults[key]
     }
-  
     // set any parameters in the request body for the webex-v3prod demo
     const updates = {
       $set: s

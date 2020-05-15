@@ -16,8 +16,8 @@ router.post('/', async function (req, res, next) {
   try {
     console.log('user', username, userId, 'at IP', clientIp, operation, method, path, 'requested')
     // do provisioning in CJP
-    const results = await model.go(userId)
-    console.log('user', username, userId, 'CWCC provisioning done for Webex v3 demo:', results)
+    await model.go(userId)
+    console.log('user', username, userId, 'CWCC provisioning done for Webex v3 demo:')
     // results: {
     //   team,
     //   supervisor,

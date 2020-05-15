@@ -41,8 +41,8 @@ async function setChatDefaults (userId) {
     const updates = {
       $set: s
     }
-    console.log('updating', userId, demo, 'in mongo with', updates)
-    const response = await db.updateOne('toolbox', 'users', query, updates)
+    // console.log('updating', userId, demo, 'in mongo with', updates)
+    const response = await db.updateOne('users', query, updates)
     return {
       n: response.result.n,
       nModified: response.result.nModified,

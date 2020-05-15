@@ -30,7 +30,9 @@ router.post('/', async function (req, res, next) {
     console.log('marking user', username, userId, 'as provisioned but not done for Webex v3')
     // mark user provisioned but not done in our cloud db
     await model.set({username, id: userId, isDone: false})
-
+    
+    
+    console.log('setting user', username, userId, 'default bubble chat parameters')
     // set default bubble chat settings
     await model.setChatDefaults(userId)
 

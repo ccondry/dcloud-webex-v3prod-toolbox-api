@@ -31,6 +31,9 @@ router.post('/', async function (req, res, next) {
     // mark user provisioned but not done in our cloud db
     await model.set({username, id: userId, isDone: false})
 
+    // set default bubble chat settings
+    await model.setChatDefaults(userId)
+
     console.log('sending CUCM provision request to Webex v3 demo session...')
     // forward the JWT to the CUCM inside the demo session
     await cucmModel.post(req.headers.authorization)

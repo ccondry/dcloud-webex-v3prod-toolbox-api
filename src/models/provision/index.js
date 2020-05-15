@@ -10,6 +10,50 @@ const upsertUser = require('./user').upsert
 const DB = require('../db')
 const db = new DB('toolbox')
 
+module.exports = {
+  go,
+  set,
+  find,
+  setChatDefaults
+}
+
+// update provision info in db
+async function setChatDefaults (userId) {
+  // bubble chat defaults
+  const defaults = {
+    CiscoAppId: "cisco-chat-bubble-app",
+    DC: "produs1.ciscoccservice.com",
+    async: true,
+    orgId: "ed2f91e1-ce22-4313-85cb-9acd7b5ce489"
+  }
+  const demo = 'webex-v3prod'
+  const query = {
+    id: userId
+  }
+  try {
+    // define things to set in user data
+    const s = {}
+    // set each db property for the user that was sent in their request
+    for (const p of Object.keys(defaults)) {
+      s[`demo.${demo}.${p}`] = defaults[p]
+    }
+  
+    // set any parameters in the request body for the webex-v3prod demo
+    const updates = {
+      $set: s
+    }
+    const response = await db.updateOne('toolbox', 'users', query, updates)
+    return {
+      n: response.result.n,
+      nModified: response.result.nModified,
+      ok: response.result.ok
+    }
+  } catch (e) {
+    throw e
+  }
+}
+
+// set user provision info in cloud mongo
 async function set (data) {
   try {
     // build provision data query
@@ -30,6 +74,7 @@ async function set (data) {
   }
 }
 
+// find user provision info in cloud mongo
 async function find (username) {
   try {
     // get user provision data from mongo db
@@ -137,10 +182,4 @@ async function go (dCloudUserId) {
     userProfile
     // virtualTeamChat
   }
-}
-
-module.exports = {
-  go,
-  set,
-  find
 }

@@ -129,7 +129,7 @@ async function go (dCloudUserId) {
   return {
     team,
     supervisor,
-    agent,
+    // agent,
     virtualTeam,
     routingStrategy,
     currentRoutingStrategy,

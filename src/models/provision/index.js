@@ -7,8 +7,7 @@ const upsertVirtualTeam = require('./virtual-team').upsert
 const upsertTeam = require('./team').upsert
 const upsertUser = require('./user').upsert
 
-const DB = require('../db')
-const db = new DB('toolbox')
+const db = require('../db')
 
 module.exports = {
   go,
@@ -42,7 +41,7 @@ async function setChatDefaults (userId) {
       $set: s
     }
     // console.log('updating', userId, demo, 'in mongo with', updates)
-    const response = await db.updateOne('users', query, updates)
+    const response = await db.updateOne('toolbox', 'users', query, updates)
     return {
       n: response.result.n,
       nModified: response.result.nModified,
@@ -61,13 +60,13 @@ async function set (data) {
     // build provision data object on top of input data
     const dbData = { demo: 'webex', version: 'v3prod', ...data }
     // check if there is an existing provision record
-    const existing = await db.findOne('provision', q)
+    const existing = await db.findOne('toolbox', 'provision', q)
     if (existing) {
       // update record
-      await db.updateOne('provision', q, {$set: dbData})
+      await db.updateOne('toolbox', 'provision', q, {$set: dbData})
     } else {
       // create new record
-      await db.insertOne('provision', dbData)
+      await db.insertOne('toolbox', 'provision', dbData)
     }
   } catch (e) {
     throw e
@@ -81,7 +80,7 @@ async function find (username) {
     const q = { username, demo: 'webex', version: 'v3prod' }
     // don't return record id
     const projection = { _id: 0 }
-    return db.findOne('provision', q, {projection})
+    return db.findOne('toolbox', 'provision', q, {projection})
   } catch (e) {
     throw e
   }

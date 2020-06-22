@@ -10,6 +10,7 @@ const requestIp = require('request-ip')
 const atob = require('atob')
 // load the public cert for validating JWT
 const cert_pub = fs.readFileSync('./certs/rsa-public.pem')
+const pkg = require('../package.json')
 // set up Node.js HTTP port
 const port = process.env.NODE_PORT
 
@@ -99,4 +100,6 @@ app.use('/api/v1/webex-v3prod/version', require('./routes/version'))
 /*
 Go
 */
-app.listen(port, () => console.log(`Express.js app listening on port ${port}`))
+app.listen(port, () => { 
+  console.log(`webex-v3prod-toolbox-api version ${pkg.version} started listening on port ${port} in ${process.env.NODE_ENV} mode.`)
+})

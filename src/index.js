@@ -14,7 +14,12 @@ const cert_pub = fs.readFileSync('./certs/rsa-public.pem')
 const port = process.env.NODE_PORT
 
 // JWT path exceptions - these paths can be used without a JWT required
-const exceptions = {}
+const exceptions = {
+  path: [{
+    url: /\/api\/v1\/webex-v3prod\/version/i,
+    methods: ['GET']
+  }]
+}
 // init express app, and configure it
 const app = express()
 // parse JSON body into req.body, up to 8kb

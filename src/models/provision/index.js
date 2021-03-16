@@ -53,21 +53,23 @@ async function setChatDefaults (userId) {
 }
 
 // set user provision info in cloud mongo
-async function set (data) {
+async function set ({username, id, isDone}) {
   try {
-    // build provision data query
-    const q = { username: data.username, demo: 'webex', version: 'v3prod' }
-    // build provision data object on top of input data
-    const dbData = { demo: 'webex', version: 'v3prod', ...data }
-    // check if there is an existing provision record
-    const existing = await db.findOne('toolbox', 'provision', q)
-    if (existing) {
-      // update record
-      await db.updateOne('toolbox', 'provision', q, {$set: dbData})
-    } else {
-      // create new record
-      await db.insertOne('toolbox', 'provision', dbData)
+    const demo = 'webex'
+    const version = 'v3prod'
+    // build mongo updates
+    const updates = {
+      $set: {
+        [`demo.${demo}-${version}.isDone`]: isDone
+      },
+      $currentDate: {
+        [`demo.${demo}-${version}.modified`]: { $type: 'date' },
+        [`demo.${demo}-${version}.lastAccess`]: { $type: 'date' }
+      }
     }
+    // update user object
+    await db.updateOne('toolbox', 'users', {id}, updates)
+
   } catch (e) {
     throw e
   }
@@ -77,10 +79,16 @@ async function set (data) {
 async function find (username) {
   try {
     // get user provision data from mongo db
-    const q = { username, demo: 'webex', version: 'v3prod' }
+    const q = { username }
     // don't return record id
-    const projection = { _id: 0 }
-    return db.findOne('toolbox', 'provision', q, {projection})
+    const projection = {
+      _id: false,
+      'demo.webex-v3prod': true
+    }
+    const user = await db.findOne('toolbox', 'users', q, {projection})
+    if (user) {
+      return user.demo['demo.webex-v3prod']
+    }
   } catch (e) {
     throw e
   }
